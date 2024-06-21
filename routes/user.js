@@ -3,7 +3,6 @@ const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const User = require("../models/user");
 const { sequelize } = require("../db");
-const { where } = require("sequelize");
 
 router.get("/", async (req, res) => {
   const user = await User.findAll();
