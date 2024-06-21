@@ -18,6 +18,13 @@ const User = sequelize.define(
       allowNull: false,
       unique: true,
     },
+    lastLogin: {
+      type: DataTypes.DATE,
+    },
+    profile_picture: {
+      type: DataTypes.STRING,
+      defaultValue: null,
+    },
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false,

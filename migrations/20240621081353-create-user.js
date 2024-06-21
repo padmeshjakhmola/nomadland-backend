@@ -17,6 +17,9 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
+      lastLogin: {
+        type: Sequelize.DATE,
+      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
