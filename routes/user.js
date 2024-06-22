@@ -42,9 +42,15 @@ router.post("/register", async (req, res) => {
           where: { email },
         }
       );
+      // res.status(409).json({ error: "already_exist" });
       return res.status(201).json("already_exist");
     } else {
-      const user = await User.create({ name, email, profile_picture, clerk_userId });
+      const user = await User.create({
+        name,
+        email,
+        profile_picture,
+        clerk_userId,
+      });
       res.status(201).json({ "User created successfully:": user });
     }
   } catch (e) {

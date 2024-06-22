@@ -23,7 +23,7 @@ const User = sequelize.define(
       unique: true,
     },
     clerk_userId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     lastLogin: {
