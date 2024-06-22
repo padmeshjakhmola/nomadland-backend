@@ -9,12 +9,13 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { title, description, link } = req.body;
+  const { title, description, link , userId} = req.body;
   try {
     const user = await Post.create({
       title,
       description,
       link,
+      userId
     });
     res.status(201).json({ "post_created:": user });
   } catch (e) {

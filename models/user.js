@@ -18,6 +18,14 @@ const User = sequelize.define(
       allowNull: false,
       unique: true,
     },
+    username: {
+      type: DataTypes.STRING,
+      unique: true,
+    },
+    clerk_userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     lastLogin: {
       type: DataTypes.DATE,
     },

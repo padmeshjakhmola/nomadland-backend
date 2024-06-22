@@ -25,7 +25,7 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-  const { name, email, profile_picture } = req.body;
+  const { name, email, profile_picture, clerk_userId } = req.body;
 
   try {
     const existingEmail = await User.findOne({
@@ -44,7 +44,7 @@ router.post("/register", async (req, res) => {
       );
       return res.status(201).json("already_exist");
     } else {
-      const user = await User.create({ name, email, profile_picture });
+      const user = await User.create({ name, email, profile_picture, clerk_userId });
       res.status(201).json({ "User created successfully:": user });
     }
   } catch (e) {

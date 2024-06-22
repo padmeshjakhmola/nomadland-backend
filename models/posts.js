@@ -24,6 +24,16 @@ const Post = sequelize.define(
       type: DataTypes.STRING,
       defaultValue: null,
     },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: "users",
+        key: "id",
+      },
+      onUpdate: "CASCADE",
+      onDelete: "CASCADE",
+    },
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false,
