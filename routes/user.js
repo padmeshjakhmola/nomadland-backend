@@ -43,7 +43,10 @@ router.post("/register", async (req, res) => {
         }
       );
       // res.status(409).json({ error: "already_exist" });
-      return res.status(201).json("already_exist");
+      return res.status(201).json({
+        already_exist: true,
+        id: existingEmail.id,
+      });
     } else {
       const user = await User.create({
         name,
