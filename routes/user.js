@@ -25,7 +25,7 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-  const { name, email, profile_picture, clerk_userId } = req.body;
+  const { name, email, profile_picture, clerk_userId, username } = req.body;
 
   try {
     const existingEmail = await User.findOne({
@@ -53,6 +53,7 @@ router.post("/register", async (req, res) => {
         email,
         profile_picture,
         clerk_userId,
+        username,
       });
       res.status(201).json({ "User created successfully:": user });
     }
