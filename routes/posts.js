@@ -64,4 +64,36 @@ router.post("/", upload.single("image"), async (req, res) => {
     res.status(500).json({ server_error_send: e.message });
   }
 });
+
+router.delete("/:id", async (req, res) => {
+  const postId = req.params.id;
+  const userId = req.headers.authorization.split(" ")[1];
+  try {
+    const post = await Post.findByPk(postId);
+    if (!post) {
+      return res.status(404).json({ error: "post_not_found" });
+    }
+
+    if (post.userId != userId) {
+      return res.status(403).json({ error: "not_authorized" });
+    }
+
+    try {
+      await Post.destroy({
+        where: {
+          id: postId,
+        },
+      });
+      res.status(200).json({ message: "post_deleted_successfully" });
+    } catch (dbError) {
+      console.error("Database error:", dbError);
+      res.status(500).json({ server_error_rec: dbError.message });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error_deleting_post: e.message,
+    });
+  }
+});
+
 module.exports = router;
