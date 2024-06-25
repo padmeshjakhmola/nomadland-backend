@@ -9,6 +9,26 @@ router.get("/", async (req, res) => {
   res.status(200).json(comments);
 });
 
+router.get("/comments/:postId", async (req, res) => {
+  const { postId } = req.params;
+  try {
+    const comments = await Comment.findAll({
+      where: { postId },
+      include: [
+        {
+          model: User,
+          attributes: ["name", "email", "username", "profile_picture"],
+        },
+      ],
+      order: [["createdAt", "DESC"]],
+    });
+    res.status(200).json(comments);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 router.post("/comments", async (req, res) => {
   const { text, userId, postId } = req.body;
 
