@@ -1,7 +1,7 @@
 const app = require("./app");
 const { connectToDB } = require("./db");
 
-const port = 3001;
+const port = process.env.PORT || 3001;
 
 connectToDB();
 
