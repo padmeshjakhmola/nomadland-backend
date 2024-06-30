@@ -19,6 +19,7 @@ const sequelize = new Sequelize(process.env.POSTGRES_DATABASE, {
 //   logging: true,
 // });
 
+
 const connectToDB = async () => {
   try {
     await sequelize.authenticate();
