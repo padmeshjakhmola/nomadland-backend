@@ -10,16 +10,7 @@ const baseRouter = express.Router();
 
 app.use(bodyParser.json());
 
-const corsOptions = {
-  origin: process.env.CORS_URL,
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true,
-  optionsSuccessStatus: 204,
-};
-
-// app.use(cors());
-
-app.use(cors(corsOptions));
+app.use(cors());
 
 baseRouter.use("/users", userRouter);
 baseRouter.use("/posts", postRouter);
