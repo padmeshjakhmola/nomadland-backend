@@ -4,6 +4,7 @@ const Post = require("../models/posts");
 const User = require("../models/user");
 const AWS = require("aws-sdk");
 const multer = require("multer");
+const redisClient = require("../utils/redis");
 
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -15,12 +16,18 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 router.get("/", async (req, res) => {
+  const cacheValue = await redisClient.get("all_posts");
+
+  if (cacheValue) return res.json(JSON.parse(cacheValue));
+
   const user = await Post.findAll({
     include: {
       model: User,
       attributes: ["name", "email", "username", "profile_picture"],
     },
   });
+
+  await redisClient.set("all_posts", JSON.stringify(user));
   res.status(200).json(user);
 });
 
@@ -53,6 +60,17 @@ router.post("/", upload.single("image"), async (req, res) => {
           link: data.Location,
           userId,
         });
+
+        const posts = await Post.findAll({
+          include: {
+            model: User,
+            attributes: ["name", "email", "username", "profile_picture"],
+          },
+        });
+
+        // Update the cache with the new list of posts
+        await redisClient.set("all_posts", JSON.stringify(posts));
+
         res.status(201).json({ post_created: post });
       } catch (dbError) {
         console.error("Database error:", dbError);
@@ -84,6 +102,17 @@ router.delete("/:id", async (req, res) => {
           id: postId,
         },
       });
+
+      const posts = await Post.findAll({
+        include: {
+          model: User,
+          attributes: ["name", "email", "username", "profile_picture"],
+        },
+      });
+
+      //update cache
+      await redisClient.set("all_posts", JSON.stringify(posts));
+
       res.status(200).json({ message: "post_deleted_successfully" });
     } catch (dbError) {
       console.error("Database error:", dbError);
