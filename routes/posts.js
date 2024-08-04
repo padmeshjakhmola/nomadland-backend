@@ -4,7 +4,7 @@ const Post = require("../models/posts");
 const User = require("../models/user");
 const AWS = require("aws-sdk");
 const multer = require("multer");
-const redisClient = require("../utils/redis");
+const { redisClient, pubClient } = require("../utils/redis");
 
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -69,9 +69,7 @@ router.post("/", upload.single("image"), async (req, res) => {
         });
 
         await redisClient.set("all_posts", JSON.stringify(posts));
-
-        const io = req.app.get('io');
-        io.emit("new_post", posts);
+        await pubClient.publish("posts_update", JSON.stringify(posts));
 
         res.status(201).json({ post_created: post });
       } catch (dbError) {
