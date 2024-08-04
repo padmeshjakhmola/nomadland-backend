@@ -68,8 +68,10 @@ router.post("/", upload.single("image"), async (req, res) => {
           },
         });
 
-        // Update the cache with the new list of posts
         await redisClient.set("all_posts", JSON.stringify(posts));
+
+        const io = req.app.get('io');
+        io.emit("new_post", posts);
 
         res.status(201).json({ post_created: post });
       } catch (dbError) {
