@@ -4,7 +4,7 @@ const Post = require("../models/posts");
 const User = require("../models/user");
 const AWS = require("aws-sdk");
 const multer = require("multer");
-const redisClient = require("../utils/redis");
+const { redisClient, pubClient } = require("../utils/redis");
 
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -68,8 +68,8 @@ router.post("/", upload.single("image"), async (req, res) => {
           },
         });
 
-        // Update the cache with the new list of posts
         await redisClient.set("all_posts", JSON.stringify(posts));
+        await pubClient.publish("posts_update", JSON.stringify(posts));
 
         res.status(201).json({ post_created: post });
       } catch (dbError) {
