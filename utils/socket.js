@@ -15,16 +15,16 @@ function socketIo(app) {
   });
 
   io.on("connection", (socket) => {
-    console.log("New_User_connected", socket.id);
-  });
+    console.log("user_connected", socket.id);
 
-  subClient.subscribe("posts_update");
+    subClient.subscribe("posts_update");
 
-  subClient.on("message", (channel, message) => {
-    if (channel === "posts_update") {
-      const posts = JSON.parse(message);
-      io.emit("new_post", posts);
-    }
+    subClient.on("message", (channel, message) => {
+      if (channel === "posts_update") {
+        const posts = JSON.parse(message);
+        socket.emit("new_post", posts);
+      }
+    });
   });
 
   app.set("io", io);

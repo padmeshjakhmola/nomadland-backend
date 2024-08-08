@@ -4,7 +4,7 @@ module.exports = {
   development: {
     username: "postgres",
     password: "postgres",
-    database: "database_development",
+    database: "nomadland",
     host: "127.0.0.1",
     dialect: "postgres",
   },
