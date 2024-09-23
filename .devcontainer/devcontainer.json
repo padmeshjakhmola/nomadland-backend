@@ -1,0 +1,22 @@
+{
+  "name": "Node.js Container",
+  "dockerComposeFile": "docker-compose.yml",
+  // "context": "..",
+  "service": "app",
+  "workspaceFolder": "/app",
+  // "appPort": [3001, "5450:5432"],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "esbenp.prettier-vscode",
+        "eamodio.gitlens",
+        "xabikos.JavaScriptSnippets",
+        "ms-vscode.vscode-typescript-next"
+      ],
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+      }
+    }
+  },
+  "postCreateCommand": "npm install"
+}

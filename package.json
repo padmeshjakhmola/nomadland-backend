@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start:dev": "NODE_ENV=development nodemon index.js",
+    "start:dev": "NODE_ENV=development nodemon index.js && npx sequelize-cli db:migrate",
     "start:test": "NODE_ENV=test nodemon index.js",
     "start:prod": "NODE_ENV=production node index.js"
   },
@@ -26,5 +26,8 @@
     "sequelize": "^6.37.3",
     "sequelize-cli": "^6.6.2",
     "socket.io": "^4.7.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
   }
 }
