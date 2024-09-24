@@ -1,9 +1,9 @@
-version: '3.8'
 services:
   app:
     build: 
       context: ..
       dockerfile: .devcontainer/Dockerfile
+      target: development  # for runnung in dev mode ex- npm run start:dev
     # volumes:
       # - ../../:/workspaces:cached
     # ports:
