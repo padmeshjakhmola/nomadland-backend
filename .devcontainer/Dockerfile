@@ -8,7 +8,7 @@ COPY . .
 # Development stage
 FROM base AS development
 EXPOSE 3001
-CMD ["npm", "run", "start:dev"]
+CMD ["tail", "-f", "/dev/null"]
 
 # Production stage
 FROM base AS production
