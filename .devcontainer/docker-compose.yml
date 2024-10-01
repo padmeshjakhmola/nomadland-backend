@@ -8,6 +8,8 @@ services:
       # - ../../:/workspaces:cached
     # ports:
     #   - "3001:3001"
+    volumes:
+    - ~/.ssh:/root/.ssh
     depends_on:
       - db
     network_mode: service:db
