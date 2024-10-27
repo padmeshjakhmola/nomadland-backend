@@ -4,7 +4,9 @@ const { redisClient } = require("./utils/redis");
 
 let sequelize;
 
-if (process.env.NODE_ENV === "production") {
+const STAGE = process.env.STAGE || "prod";
+
+if (STAGE === "prod") {
   sequelize = new Sequelize(process.env.POSTGRES_DATABASE, {
     dialect: "postgres",
     dialectOptions: {
@@ -20,19 +22,14 @@ if (process.env.NODE_ENV === "production") {
   });
   redisClient.flushall();
 } else {
-  sequelize = new Sequelize(
-    process.env.POSTGRES_DB,
-    process.env.POSTGRES_USER,
-    process.env.POSTGRES_PASSWORD,
-    {
-      host: process.env.POSTGRES_HOST, // Use the environment variable for host.
-      dialect: "postgres",
-      port: process.env.POSTGRES_PORT, // Use the environment variable for port.
-      logging: (msg) => {
-        console.log(`connected_DEV_DB: ${msg}`);
-      },
-    }
-  );
+  sequelize = new Sequelize("nomadland", "postgres", "postgres", {
+    host: "localhost",
+    dialect: "postgres",
+    port: 5432,
+    logging: (msg) => {
+      console.log(`connected_DEV_DB: ${msg}`);
+    },
+  });
   redisClient.flushall();
 }
 

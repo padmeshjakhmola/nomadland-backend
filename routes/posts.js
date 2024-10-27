@@ -34,7 +34,7 @@ router.post("/", upload.single("image"), async (req, res) => {
 
   try {
     const params = {
-      Bucket: process.env.AWS_BUCKET_NAME,
+      Bucket: "nomadland-project-files",
       Key: `${Date.now()}_/${userId}`,
       Body: req.file.buffer,
       ContentType: req.file.mimetype,

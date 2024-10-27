@@ -1,0 +1,32 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: prankshadow
+# "app" enables Serverless Framework Dashboard features and sharing them with other Services.
+app: nomadland-backend
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: serverless-nomadland-backend
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  environment:
+    STAGE: ${env:STAGE, "prod"}
+    POSTGRES_DATABASE: ${env:POSTGRES_DATABASE, "fallback_value"}
+    POSTGRES_USERNAME: ${env:POSTGRES_USERNAME, 0}
+    POSTGRES_PASSWORD: ${env:POSTGRES_PASSWORD, "xxxxxx"}
+    POSTGRES_HOST: ${env:POSTGRES_HOST, "www.xyz.com"}
+    POSTGRES_DIALECT: ${env:POSTGRES_DIALECT, "psql"}
+    POSTGRES_PORT: ${env:POSTGRES_PORT, 0}
+    POSTGRES_DATABASE_NAME: ${env:POSTGRES_DATABASE_NAME, "db"}
+    POSTGRES_SSH_CERTIFICATE: ${env:POSTGRES_SSH_CERTIFICATE, "certificate"}
+    REDIS_URL: ${env:REDIS_URL, "url"}
+    CORS_URL: ${env:CORS_URL, "fallback_value"}
+
+functions:
+  api:
+    handler: index.handler
+    events:
+      - httpApi: "*"
+
+plugins:
+  - serverless-offline
